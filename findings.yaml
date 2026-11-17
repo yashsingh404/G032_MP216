@@ -1,0 +1,62 @@
+# MP216 findings --- fill in every value, keep every key.
+# The marking tool reads this file. Write null only where the comment says so.
+# Use the exact column names and group values from your data files.
+
+group_id: "G032"          # your group id, e.g. "G042"
+problem_id: "MP216"
+
+data_issues:
+  # For each of the 7 kinds: present: true or false.
+  # If present is false, leave the other values as null.
+  leaking_column:
+    present: false
+    column: null           # the column that must not be used as a feature
+  unit_mixup:
+    present: true
+    column: queue_wait_sec           # the column recorded in a different unit
+    group_value: Team Alpha      # the value of team whose rows are affected
+    factor: 60           # wrong value = right value x factor
+  sentinel_value:
+    present: true
+    column: caller_age
+    value: -999            # the special number typed instead of a blank
+    count: 38            # how many rows have it
+  duplicate_rows:
+    present: false
+    count: null            # number of EXTRA copies (rows you would delete)
+  stuck_sensor:
+    present: true
+    column: hour
+    start_date: "2026-02-02"       # first date with the stuck value, YYYY-MM-DD
+    end_date: "2026-02-21"         # last date with the stuck value, YYYY-MM-DD
+  target_typos:
+    present: false
+    count: null            # rows whose target was typed 10 times too big
+  spelling_variants:
+    present: true
+    column: language
+    true_levels: 3      # how many real categories there are after cleaning
+
+tracking:
+  experiment_name: null
+  best_run_id: null        # the MLflow run id of your v1 model
+  registered_model_name: null
+  champion_version: null
+
+monitoring:
+  psi:                     # cleaned train.csv vs later.csv, 10 bins
+    queue_wait_sec: null
+    agent_exp_months: null
+    previous_calls: null
+    issue_count: null
+    hour: null
+    caller_age: null
+  most_drifted_feature: null
+  mae_by_group:            # v1 on later.csv, per value of team
+    'Team Alpha': null
+    'Team Beta': null
+    'Team Gamma': null
+  worst_served_group: null
+  mae_v1_on_check: null    # v1 on the last 30% of later.csv (by date)
+  mae_v2_on_check: null    # v2 on the same rows
+  decision: null           # promote or keep

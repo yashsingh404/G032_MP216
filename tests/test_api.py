@@ -1,11 +1,23 @@
 
+
+from unittest.mock import patch
+
 from fastapi.testclient import TestClient
 from app.main import app
 
 
+class FakeModel:
+    """A simple fake model used only for automated tests."""
+
+    def predict(self, data):
+        # Return a predictable value without loading MLflow.
+        return [10.86]
+
+
 def test_health():
-    with TestClient(app) as client:
-        response = client.get("/health")
+    with patch("app.main.mlflow.sklearn.load_model", return_value=FakeModel()):
+        with TestClient(app) as client:
+            response = client.get("/health")
 
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
@@ -24,11 +36,13 @@ def test_prediction():
         "team": "Team Alpha"
     }
 
-    with TestClient(app) as client:
-        response = client.post("/predict", json=sample)
+    with patch("app.main.mlflow.sklearn.load_model", return_value=FakeModel()):
+        with TestClient(app) as client:
+            response = client.post("/predict", json=sample)
 
     assert response.status_code == 200
 
     result = response.json()
+
     assert "predicted_handle_min" in result
-    assert result["predicted_handle_min"] >= 0
+    assert result["predicted_handle_min"] == 10.86

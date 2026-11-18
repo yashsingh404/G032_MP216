@@ -1,6 +1,6 @@
 
 from contextlib import asynccontextmanager
-
+import os
 import mlflow.sklearn
 import pandas as pd
 from fastapi import FastAPI
@@ -9,7 +9,12 @@ from pydantic import BaseModel, Field
 
 
 
-MODEL_URI = "models:/MP216_Helpline_Model@champion"
+
+MODEL_URI = os.getenv(
+    "MODEL_URI",
+    "models:/MP216_Helpline_Model@champion"
+)
+
 model = None
 
 

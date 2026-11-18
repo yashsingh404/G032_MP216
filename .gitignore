@@ -20,3 +20,6 @@ mlartifacts/
 
 # Pytest cache
 .pytest_cache/
+
+# Exported champion model
+models/

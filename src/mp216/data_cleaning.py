@@ -2,13 +2,14 @@
 import pandas as pd
 
 
-def clean_data(df):
+def clean_data(df, fix_alpha_units=True):
     # Work on a copy to preserve the original data
     df = df.copy()
 
     # 1. Fix Team Alpha's waiting-time units
-    alpha = df["team"] == "Team Alpha"
-    df.loc[alpha, "queue_wait_sec"] *= 60
+    if fix_alpha_units:
+        alpha = df["team"] == "Team Alpha"
+        df.loc[alpha, "queue_wait_sec"] *= 60
 
     # 2. Replace invalid ages with missing values
     df["caller_age"] = df["caller_age"].replace(-999, float("nan"))

@@ -1,3 +1,4 @@
+
 name: MP216 CI Pipeline
 
 on:
@@ -24,5 +25,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run API tests
-        run: python -m pytest tests/test_api.py -q
+      - name: Run API and monitoring tests
+        run: python -m pytest tests/ -v
+

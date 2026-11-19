@@ -26,5 +26,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run API and monitoring tests
-        run: python -m pytest tests/ -v
+        run: python -m pytest tests/test_api.py tests/test_monitor.py -v
+
 

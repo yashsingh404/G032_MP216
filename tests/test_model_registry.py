@@ -13,7 +13,7 @@ def test_champion_alias():
         MODEL_NAME, "champion"
     )
 
-    assert champion.version == 1
+    assert champion.version == 3
 
 
 def test_candidate_registration():

@@ -38,25 +38,28 @@ data_issues:
     true_levels: 3      # how many real categories there are after cleaning
 
 tracking:
-  experiment_name: null
-  best_run_id: null        # the MLflow run id of your v1 model
-  registered_model_name: null
-  champion_version: null
+  experiment_name: MP216_Helpline_Regression
+  best_run_id: "2bbef882a1fb44b7860ab2de434bc070"
+  registered_model_name: MP216_Helpline_Model
+  champion_version: 3
 
 monitoring:
-  psi:                     # cleaned train.csv vs later.csv, 10 bins
-    queue_wait_sec: null
-    agent_exp_months: null
-    previous_calls: null
-    issue_count: null
-    hour: null
-    caller_age: null
-  most_drifted_feature: null
-  mae_by_group:            # v1 on later.csv, per value of team
-    'Team Alpha': null
-    'Team Beta': null
-    'Team Gamma': null
-  worst_served_group: null
-  mae_v1_on_check: null    # v1 on the last 30% of later.csv (by date)
-  mae_v2_on_check: null    # v2 on the same rows
-  decision: null           # promote or keep
+  psi:
+    queue_wait_sec: 0.034098
+    agent_exp_months: 0.025137
+    previous_calls: 6.582194
+    issue_count: 0.011309
+    hour: 0.047464
+    caller_age: 0.053933
+  most_drifted_feature: previous_calls
+  
+  mae_by_group:
+    'Team Alpha': 2.671
+    'Team Beta': 6.389
+    'Team Gamma': 2.971
+  worst_served_group: "Team Beta"
+
+  mae_v1_on_check: 3.878471
+  mae_v2_on_check: 1.913324
+  decision: promote
+           

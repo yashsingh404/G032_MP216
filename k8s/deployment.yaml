@@ -1,0 +1,33 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mp216-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mp216-api
+  template:
+    metadata:
+      labels:
+        app: mp216-api
+    spec:
+      containers:
+        - name: mp216-api
+          image: mp216-api:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 20

@@ -25,7 +25,6 @@ def test_health():
 
 def test_prediction():
     sample = {
-        "date": "2026-09-01",
         "queue_wait_sec": 300,
         "agent_exp_months": 24,
         "previous_calls": 2,
@@ -46,3 +45,61 @@ def test_prediction():
 
     assert "predicted_handle_min" in result
     assert result["predicted_handle_min"] == 10.86
+
+
+def test_previous_calls_above_20_rejected():
+    payload = {
+        "queue_wait_sec": 300,
+        "agent_exp_months": 24,
+        "previous_calls": 21,
+        "issue_count": 3,
+        "hour": 14,
+        "caller_age": 35,
+        "language": "english",
+        "team": "Team Alpha",
+    }
+
+    with patch("app.main.mlflow.sklearn.load_model", return_value=FakeModel()):
+        with TestClient(app) as client:
+            response = client.post("/predict", json=payload)
+
+    assert response.status_code == 422
+
+
+def test_negative_agent_experience_rejected():
+    payload = {
+        "queue_wait_sec": 300,
+        "agent_exp_months": -1,
+        "previous_calls": 2,
+        "issue_count": 3,
+        "hour": 14,
+        "caller_age": 35,
+        "language": "english",
+        "team": "Team Alpha",
+    }
+
+    with patch("app.main.mlflow.sklearn.load_model", return_value=FakeModel()):
+        with TestClient(app) as client:
+            response = client.post("/predict", json=payload)
+
+    assert response.status_code == 422
+
+
+def test_extra_date_field_rejected():
+    payload = {
+        "date": "2026-09-01",
+        "queue_wait_sec": 300,
+        "agent_exp_months": 24,
+        "previous_calls": 2,
+        "issue_count": 3,
+        "hour": 14,
+        "caller_age": 35,
+        "language": "english",
+        "team": "Team Alpha",
+    }
+
+    with patch("app.main.mlflow.sklearn.load_model", return_value=FakeModel()):
+        with TestClient(app) as client:
+            response = client.post("/predict", json=payload)
+
+    assert response.status_code == 422

@@ -320,3 +320,7 @@ Overall, this project gave us practical experience with how a machine learning m
 | Name | Enrolment Number |
 |---|---|
 | Yash Singh | S24CSEU2682 |
+| Gokarn Mishra | S24CSEU2634 |
+| Nidhi Verma | S24CSEU2590 |
+| Krishna Agrawal | S24CSEU2683 |
+| Shahil Chaudhary | S24CSEU2681 |

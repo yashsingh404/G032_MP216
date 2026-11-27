@@ -74,4 +74,3 @@ The original CSV files remain unchanged.
 
 The cleaning process handles unit inconsistencies, missing-value sentinels, inconsistent categorical labels, and suspicious hour values.
 
-These checks help ensure that the data passed to the machine-learning pipeline is consistent and suitable for modeling.
